@@ -80,7 +80,7 @@ public abstract class DraggableBehavior extends JQueryUIBehavior implements IJQu
 		this.component = component; //warning, not thread-safe: the instance of this behavior should only be used once
 		this.component.add(this.onDragStartBehavior = this.newOnDragStartBehavior());
 
-		// these events are not enabled by default to prevent unnecessary server round-trips.
+		// this event is not enabled by default to prevent unnecessary server round-trips.
 		if (this.isStopEventEnabled())
 		{
 			this.component.add(this.onDragStopBehavior = this.newOnDragStopBehavior());
