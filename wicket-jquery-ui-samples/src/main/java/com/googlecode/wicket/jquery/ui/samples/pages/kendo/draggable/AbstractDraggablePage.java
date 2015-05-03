@@ -20,9 +20,9 @@ abstract class AbstractDraggablePage extends SamplePage
 	protected List<DemoLink> getDemoLinks()
 	{
 		return Arrays.asList(
-				new DemoLink(KendoDraggablePage.class, "Draggable Behavior")
+				new DemoLink(KendoDraggablePage.class, "Draggable Behavior"),
 //				new DemoLink(BehaviorOptionDraggablePage.class, "Draggable Behavior, with options"),
-//				new DemoLink(ComponentDraggablePage.class, "Draggable Component"),
+				new DemoLink(ComponentDraggablePage.class, "Draggable Component")
 //				new DemoLink(ComponentOptionDraggablePage.class, "Draggable Component, with options")
 			);
 	}

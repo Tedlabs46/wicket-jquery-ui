@@ -2,12 +2,8 @@
 <html xmlns:wicket="http://wicket.apache.org">
 <head>
 <wicket:head>
-	<title>Wicket - Kendo UI: draggable</title>
+	<title>Wicket - Kendo UI: draggable component</title>
 	<style type="text/css">
-        #wrapper-panel-frame {
-            height: 256px;
-        }
-        
 		.draggable {
             cursor: move;
             width: 96px;
@@ -15,36 +11,21 @@
             border-radius: 1em;
             background-color: orange;
         }
-        
-        .console {
-	        height: 128px;
-        }
-
-        /* class of the element being dragged */
-        .kendoDraggable-clone
-        {
-        	border: 2px solid gray;
-        }
-
-		/* class added on the original element */
-        .kendoDraggable-hide
-        {
-        	display: none;
-        }
 	</style>
 </wicket:head>
 </head>
 <body>
 <wicket:extend>
 	<div id="wrapper-panel-frame" class="ui-corner-all">
-		Drag everywhere here...<br/>
-		<br/>
 		<div wicket:id="draggable" class="draggable">
 			<div style="padding: 1em;">Drag me!</div>
 		</div>
+		<br/>
+		<br/>
+		<br/>
 	</div>
 	<br/>
-	<div wicket:id="console"></div>
+	<div wicket:id="feedback" style="width: 360px;"></div>
 </wicket:extend>
 </body>
 </html>

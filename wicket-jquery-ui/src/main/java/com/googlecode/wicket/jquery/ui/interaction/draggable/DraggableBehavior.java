@@ -22,6 +22,7 @@ import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.attributes.CallbackParameter;
 import org.apache.wicket.util.visit.IVisit;
 import org.apache.wicket.util.visit.IVisitor;
+import org.apache.wicket.util.visit.Visits;
 
 import com.googlecode.wicket.jquery.core.JQueryEvent;
 import com.googlecode.wicket.jquery.core.Options;
@@ -47,8 +48,11 @@ public abstract class DraggableBehavior extends JQueryUIBehavior implements IJQu
 	private JQueryAjaxBehavior onDragStopBehavior = null;
 	private Component component = null;
 
+	// TODO add default ctor (see kendo DraggableBehavior)
+
 	/**
 	 * Constructor
+	 * 
 	 * @param selector the html selector (ie: "#myId")
 	 */
 	public DraggableBehavior(String selector)
@@ -58,6 +62,7 @@ public abstract class DraggableBehavior extends JQueryUIBehavior implements IJQu
 
 	/**
 	 * Constructor
+	 * 
 	 * @param selector the html selector (ie: "#myId")
 	 * @param options the {@link Options}
 	 */
@@ -67,6 +72,7 @@ public abstract class DraggableBehavior extends JQueryUIBehavior implements IJQu
 	}
 
 	// Methods //
+
 	@Override
 	public void bind(Component component)
 	{
@@ -77,7 +83,7 @@ public abstract class DraggableBehavior extends JQueryUIBehavior implements IJQu
 			throw new WicketRuntimeException("Behavior is already bound to another component.");
 		}
 
-		this.component = component; //warning, not thread-safe: the instance of this behavior should only be used once
+		this.component = component; // warning, not thread-safe: the instance of this behavior should only be used once
 		this.component.add(this.onDragStartBehavior = this.newOnDragStartBehavior());
 
 		// this event is not enabled by default to prevent unnecessary server round-trips.
@@ -88,6 +94,7 @@ public abstract class DraggableBehavior extends JQueryUIBehavior implements IJQu
 	}
 
 	// Events //
+
 	@Override
 	public void onConfigure(Component component)
 	{
@@ -110,10 +117,10 @@ public abstract class DraggableBehavior extends JQueryUIBehavior implements IJQu
 
 			if (ev instanceof DragStartEvent)
 			{
-				this.onDragStart(target, ev.getTop(), ev.getLeft());
-
 				// register to all DroppableBehavior(s) //
-				target.getPage().visitChildren(this.newDroppableBehaviorVisitor());
+				Visits.visit(target.getPage(), this.newDroppableBehaviorVisitor());
+
+				this.onDragStart(target, ev.getTop(), ev.getLeft());
 			}
 
 			else if (ev instanceof DragStopEvent)
@@ -124,6 +131,7 @@ public abstract class DraggableBehavior extends JQueryUIBehavior implements IJQu
 	}
 
 	// Factories //
+
 	/**
 	 * Gets a new {@link DroppableBehavior} visitor.<br/>
 	 * This {@link IVisitor} is responsible for register the {@link DroppableBehavior} to this {@link DraggableBehavior}
@@ -147,6 +155,7 @@ public abstract class DraggableBehavior extends JQueryUIBehavior implements IJQu
 
 	/**
 	 * Gets a new {@link JQueryAjaxBehavior} that will be called on 'start' javascript event
+	 * 
 	 * @return the {@link JQueryAjaxBehavior}
 	 */
 	protected JQueryAjaxBehavior newOnDragStartBehavior()
@@ -158,13 +167,9 @@ public abstract class DraggableBehavior extends JQueryUIBehavior implements IJQu
 			@Override
 			protected CallbackParameter[] getCallbackParameters()
 			{
-				return new CallbackParameter[] {
-						CallbackParameter.context("event"),
-						CallbackParameter.context("ui"),
-						CallbackParameter.resolved("top", "ui.position.top"),
-						CallbackParameter.resolved("left", "ui.position.left"),
-						CallbackParameter.resolved("offsetTop", "ui.offset.top | 0"), //cast to int, no rounding
-						CallbackParameter.resolved("offsetLeft", "ui.offset.left | 0")  //cast to int, no rounding
+				return new CallbackParameter[] { CallbackParameter.context("event"), CallbackParameter.context("ui"), CallbackParameter.resolved("top", "ui.position.top"), CallbackParameter.resolved("left", "ui.position.left"),
+						CallbackParameter.resolved("offsetTop", "ui.offset.top | 0"), // cast to int, no rounding
+						CallbackParameter.resolved("offsetLeft", "ui.offset.left | 0") // cast to int, no rounding
 				};
 			}
 
@@ -178,6 +183,7 @@ public abstract class DraggableBehavior extends JQueryUIBehavior implements IJQu
 
 	/**
 	 * Gets a new {@link JQueryAjaxBehavior} that will be called on 'stop' javascript event
+	 * 
 	 * @return the {@link JQueryAjaxBehavior}
 	 */
 	protected JQueryAjaxBehavior newOnDragStopBehavior()
@@ -189,13 +195,9 @@ public abstract class DraggableBehavior extends JQueryUIBehavior implements IJQu
 			@Override
 			protected CallbackParameter[] getCallbackParameters()
 			{
-				return new CallbackParameter[] {
-						CallbackParameter.context("event"),
-						CallbackParameter.context("ui"),
-						CallbackParameter.resolved("top", "ui.position.top"),
-						CallbackParameter.resolved("left", "ui.position.left"),
-						CallbackParameter.resolved("offsetTop", "ui.offset.top | 0"), //cast to int, no rounding
-						CallbackParameter.resolved("offsetLeft", "ui.offset.left | 0")  //cast to int, no rounding
+				return new CallbackParameter[] { CallbackParameter.context("event"), CallbackParameter.context("ui"), CallbackParameter.resolved("top", "ui.position.top"), CallbackParameter.resolved("left", "ui.position.left"),
+						CallbackParameter.resolved("offsetTop", "ui.offset.top | 0"), // cast to int, no rounding
+						CallbackParameter.resolved("offsetLeft", "ui.offset.left | 0") // cast to int, no rounding
 				};
 			}
 
@@ -207,8 +209,8 @@ public abstract class DraggableBehavior extends JQueryUIBehavior implements IJQu
 		};
 	}
 
-
 	// Events classes //
+
 	/**
 	 * Provides a base class for draggable event object
 	 */
@@ -232,6 +234,7 @@ public abstract class DraggableBehavior extends JQueryUIBehavior implements IJQu
 
 		/**
 		 * Gets the position's top value
+		 * 
 		 * @return the position's top value
 		 */
 		public int getTop()
@@ -241,6 +244,7 @@ public abstract class DraggableBehavior extends JQueryUIBehavior implements IJQu
 
 		/**
 		 * Gets the position's left value
+		 * 
 		 * @return the position's left value
 		 */
 		public int getLeft()
@@ -250,6 +254,7 @@ public abstract class DraggableBehavior extends JQueryUIBehavior implements IJQu
 
 		/**
 		 * Gets the offset's top value
+		 * 
 		 * @return the offset's top value
 		 */
 		public int getOffsetTop()
@@ -259,6 +264,7 @@ public abstract class DraggableBehavior extends JQueryUIBehavior implements IJQu
 
 		/**
 		 * Gets the offset's left value
+		 * 
 		 * @return the offset's left value
 		 */
 		public int getOffsetLeft()
