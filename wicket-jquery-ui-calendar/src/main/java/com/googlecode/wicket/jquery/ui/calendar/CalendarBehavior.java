@@ -180,11 +180,9 @@ public abstract class CalendarBehavior extends JQueryBehavior implements IJQuery
 		/* adds and configure the busy indicator */
 		StringBuilder builder = new StringBuilder();
 
-		builder.append("jQuery(function(){\n");
 		builder.append("jQuery(\"<img id='calendar-indicator' src='").append(RequestCycle.get().urlFor(handler)).append("' />\").appendTo('.fc-header-center');\n"); // allows only one calendar.
 		builder.append("jQuery(document).ajaxStart(function() { jQuery('#calendar-indicator').show(); });\n");
 		builder.append("jQuery(document).ajaxStop(function() { jQuery('#calendar-indicator').hide(); });\n");
-		builder.append("});\n");
 
 		this.renderOnDomReadyScript(builder.toString(), response);
 	}
